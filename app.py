@@ -166,7 +166,7 @@ def reset_all():
 st.title("Is Tomorrow's Air Safe?")
 st.markdown(
     "Will **tomorrow's PM2.5** go over the **WHO guideline of 15 µg/m³**? "
-    "Answer a few questions about today and the past week and the model will estimate the risk. "
+    "Answer a few questions and the model will estimate the risk. "
 )
 
 tab_forecast, tab_explore= st.tabs(["Forecast", "Explore the data"])
