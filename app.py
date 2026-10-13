@@ -47,7 +47,6 @@ st.markdown(
 BANDS = [  # (upper bound, name, ink, tint, edge, headline, advice)
     (0.20, "Low risk", "#1f7a50", "rgba(46,157,106,.12)", "rgba(46,157,106,.45)",
      "Tomorrow should stay within the WHO guideline.",
-     "Nothing special needed — a good day to ventilate the house."),
     (0.50, "Elevated", "#a97a0c", "rgba(224,168,46,.14)", "rgba(224,168,46,.5)",
      "Tomorrow could go either way.",
      "Worth checking the forecast again tomorrow morning, especially if anyone at home has asthma or a heart condition."),
@@ -256,7 +255,6 @@ with tab_forecast:
         bottom = drivers.iloc[0]
         st.caption(
             f"Biggest push up: **{top.group}**. Biggest push down: **{bottom.group}**. "
-            "Bars show the model's internal log-odds contributions, so compare sizes, not absolute values."
         )
 
     # ----- what-if curve
