@@ -1,0 +1,21 @@
+[
+  "pm10_ugm3",
+  "pm25_ugm3",
+  "pm25_rollmean_7d",
+  "pm25_rollmean_14d",
+  "exceedance_count_14d",
+  "pm25_rollmax_7d",
+  "pm10_mean7",
+  "pm10_max7",
+  "season_num",
+  "cold_day",
+  "pressure_change_1d",
+  "pm25_fraction",
+  "month",
+  "temp_max_c",
+  "temp_min_c",
+  "wind_max_kmh",
+  "precip_mm",
+  "pressure_hpa",
+  "humidity_pct"
+]
