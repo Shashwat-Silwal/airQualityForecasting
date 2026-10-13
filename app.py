@@ -179,8 +179,6 @@ with tab_forecast:
         st.date_input("1 · What's today's date?", key="date",
                       help="Used for the time of year — winter heating is the big driver of PM2.5 in NZ.")
 
-        st.markdown("**Today and the recent past**  \n<span class='muted'></span>",
-                    unsafe_allow_html=True)
         st.slider("2 · Today's PM2.5 (µg/m³)", 0.0, 80.0, key="pm25", step=0.5)
         st.slider("3 · Average PM2.5 over the last 7 days", 0.0, 60.0, key="avg7", step=0.5)
         st.slider("4 · Highest daily PM2.5 in the last 7 days", 0.0, 80.0, key="max7", step=0.5)
