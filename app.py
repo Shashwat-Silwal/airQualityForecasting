@@ -199,7 +199,7 @@ st.markdown(
     "Slide things around to see what would change the answer."
 )
 
-tab_forecast, tab_explore, tab_about = st.tabs(["Forecast", "Explore the data", "About the model"])
+tab_forecast, tab_explore= st.tabs(["Forecast", "Explore the data"])
 
 with tab_forecast:
     left, right = st.columns([1, 1.15], gap="large")
