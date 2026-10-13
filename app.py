@@ -1,7 +1,7 @@
 """Tomorrow's Air — a public PM2.5 forecast tool for New Zealand.
 
 Answers one question: will tomorrow's PM2.5 exceed the WHO 24-hour guideline
-of 15 µg/m³?  Uses the tuned XGBoost classifier from airQualityForecasting.ipynb.
+of 15 µg/m³? This is built from airQualityForecasting.ipynb.
 """
 import json
 from datetime import date
@@ -15,7 +15,7 @@ from xgboost import XGBClassifier
 
 ROOT = Path(__file__).parent
 THRESHOLD = 15  # µg/m³, WHO 24-hour guideline
-DECISION_CUTOFF = 0.5  # the notebook's final model uses predict() at 0.5
+DECISION_CUTOFF = 0.5
 
 st.set_page_config(page_title="Tomorrow's Air", page_icon="🌫️", layout="wide")
 
@@ -64,7 +64,7 @@ def band_for(p: float):
     return next(b for b in BANDS if p < b[0])
 
 
-# ---------------------------------------------------------------- model ----
+# ---------------------------------- model ----
 @st.cache_resource
 def load_model():
     model = XGBClassifier()
@@ -85,17 +85,16 @@ HISTORY = load_history()
 TRAINED_SITES = ["Anzac Square", "Rangiora", "Hampstead", "Masterton West (Pownall Street)"]
 
 
-def season_of(month: int) -> int:  # dataset convention: 1 Summer … 4 Spring (Dec–Feb = summer)
+def season_of(month: int) -> int:
     return 1 if month in (12, 1, 2) else 2 if month in (3, 4, 5) else 3 if month in (6, 7, 8) else 4
 
 
 def build_features(a: dict) -> dict:
-    """Turn the ~10 public answers into the 19 model features."""
     month = a["date"].month
     season = season_of(month)
     r = RATIOS[season]
     pm25 = a["pm25"]
-    # A 7-day maximum can't be lower than today's reading, and a day over 15 counts as an exceedance.
+
     max7 = max(a["max7"], pm25)
     days_over = max(a["days_over"], 1 if pm25 > THRESHOLD else 0)
     pm10 = a["pm10"] if a.get("pm10") else max(pm25 * r["pm10_per_pm25"], pm25)
@@ -363,46 +362,3 @@ with tab_explore:
                             hovertemplate="%{x}: %{y:.0%} of days<extra></extra>"))
     fig4.update_layout(height=280, margin=dict(l=0, r=10, t=10, b=10),
                        yaxis=dict(title="Days over 15 µg/m³", tickformat=".0%"))
-    st.markdown("**When do exceedances happen?** Share of days over the guideline, by month, across all years at this site.")
-    st.plotly_chart(fig4, width="stretch", config={"displayModeBar": False})
-
-# ---------------------------------------------------------------- about ----
-with tab_about:
-    st.subheader("How this works")
-    st.markdown(
-        f"""
-**The question.** Will tomorrow's average PM2.5 be above **{THRESHOLD} µg/m³**, the WHO 24-hour guideline?
-PM2.5 particles are small enough to reach deep into the lungs and bloodstream, and in NZ they spike on cold, still
-winter nights when wood burners are in use.
-
-**The model.** An XGBoost classifier trained on daily readings from four LAWA monitoring sites (Timaru, Ashburton,
-Rangiora and Masterton), combining recent PM2.5 and PM10 levels, weather and time of year. It was tuned for **recall**,
-so it would rather raise a false alarm than miss a bad day.
-
-**How well it did on days it had never seen (2024 onwards):**
-"""
-    )
-    m1, m2, m3 = st.columns(3)
-    m1.metric("Recall", "85%", help="Of the days that really exceeded, the share the model flagged.")
-    m2.metric("Precision", "61%", help="Of the days the model flagged, the share that really exceeded.")
-    m3.metric("Accuracy", "88%")
-    st.markdown(
-        """
-In plain terms: it catches most bad days, but roughly 4 in 10 warnings are false alarms.
-
-**Things to keep in mind**
-- The percentage is the model's **risk score**, not a calibrated probability — it was trained to favour catching exceedances.
-- It learned from four sites. Other towns, especially ones with different heating habits or geography, may behave differently.
-- It doesn't know about traffic, industry, fires or burning on the night.
-- Treat it as a guide alongside your council's air-quality alerts, not a replacement.
-
-**Questions you aren't asked.** The model uses 19 inputs. Your 10 answers cover most of them; the rest are filled in:
-- *Month and season* come from the date.
-- *Cold day* uses the notebook's definition (highest temperature above 16 °C).
-- *PM10 today, 7-day mean PM10, 7-day max PM10* are estimated from your PM2.5 answers using the typical PM10-to-PM2.5
-  ratio for that season in the dataset (unless you enter PM10 yourself).
-- *PM2.5 fraction* is PM2.5 divided by PM10.
-- *Rain, pressure and pressure change* default to a dry, settled day (change the Fine-tune box if you know them).
-- A 7-day maximum is never allowed to sit below today's reading, and a day above 15 counts toward the exceedance days.
-"""
-    )
