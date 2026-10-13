@@ -17,7 +17,7 @@ ROOT = Path(__file__).parent
 THRESHOLD = 15  # µg/m³, WHO 24-hour guideline
 DECISION_CUTOFF = 0.5
 
-st.set_page_config(page_title="Tomorrow's Air", page_icon="🌫️", layout="wide")
+st.set_page_config(page_title="Is Tomorrow's Air Safe", page_icon="🌫️", layout="wide")
 
 # ---------------------------------------------------------------- styling --
 st.markdown(
