@@ -265,7 +265,6 @@ with tab_forecast:
     # ----- what-if curve
     st.divider()
     st.subheader("What if…?")
-    st.caption("Change one thing and hold everything else at your answers above.")
     VARY = {
         "Today's PM2.5": ("pm25", 0.0, 60.0, "µg/m³"),
         "Lowest temperature tonight": ("tmin", -8.0, 20.0, "°C"),
