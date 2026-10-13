@@ -156,35 +156,6 @@ DEFAULTS = dict(
 for k, v in DEFAULTS.items():
     st.session_state.setdefault(k, v)
 
-
-def load_real_day():
-    site, day = st.session_state["ex_site"], pd.Timestamp(st.session_state["ex_date"])
-    row = HISTORY[(HISTORY.site_name == site) & (HISTORY.date == day)]
-    if row.empty:
-        st.session_state["ex_msg"] = "No reading for that site on that date — try another day."
-        return
-    r = row.iloc[0]
-    need = ["pm25_ugm3", "pm10_ugm3", "pm25_rollmean_7d", "pm25_rollmean_14d", "pm25_rollmax_7d",
-            "exceedance_count_14d", "temp_max_c", "temp_min_c", "wind_max_kmh", "humidity_pct",
-            "precip_mm", "pressure_hpa"]
-    if r[need].isna().any():
-        st.session_state["ex_msg"] = "That day has missing readings — try another day."
-        return
-    clip = lambda v, lo, hi: float(min(max(v, lo), hi))
-    st.session_state.update(
-        date=day.date(), pm25=clip(r.pm25_ugm3, 0, 80), avg7=clip(r.pm25_rollmean_7d, 0, 60),
-        max7=clip(r.pm25_rollmax_7d, 0, 80), avg14=clip(r.pm25_rollmean_14d, 0, 60),
-        days_over=int(r.exceedance_count_14d), tmax=clip(r.temp_max_c, -5, 35),
-        tmin=clip(r.temp_min_c, -10, 25), wind=clip(r.wind_max_kmh, 0, 100),
-        humidity=int(clip(r.humidity_pct, 20, 100)), rain=clip(r.precip_mm, 0, 100),
-        pressure=clip(r.pressure_hpa, 950, 1040),
-        pdelta=clip(0 if pd.isna(r.pressure_change_1d) else r.pressure_change_1d, -25, 25),
-        use_pm10=True, pm10=clip(r.pm10_ugm3, 0, 200),
-        ex_msg="",
-        ex_actual=None if pd.isna(r.target_exceeds_tomorrow) else int(r.target_exceeds_tomorrow),
-    )
-
-
 def reset_all():
     st.session_state.update(DEFAULTS)
     st.session_state["ex_msg"] = ""
