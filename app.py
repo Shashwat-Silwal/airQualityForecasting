@@ -192,7 +192,7 @@ with tab_forecast:
         c1.slider("9 · Top wind speed (km/h)", 0.0, 100.0, key="wind", step=1.0)
         c2.slider("10 · Humidity (%)", 20, 100, key="humidity")
 
-        with st.expander("Fine-tune (optional — sensible defaults are used)"):
+        with st.expander("Fine-tune (optional — defaults are used)"):
             st.number_input("Rain today (mm)", 0.0, 100.0, key="rain", step=0.5)
             st.number_input("Air pressure (hPa)", 950.0, 1040.0, key="pressure", step=1.0)
             st.number_input("Pressure change since yesterday (hPa)", -25.0, 25.0, key="pdelta", step=0.5,
