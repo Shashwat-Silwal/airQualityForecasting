@@ -56,7 +56,7 @@ BANDS = [  # (upper bound, name, ink, tint, edge, headline, advice)
      "Consider shorter or gentler outdoor exercise, keep windows closed in the evening, and keep any reliever medication handy."),
     (1.01, "Very high risk", "#b02a22", "rgba(200,55,45,.14)", "rgba(200,55,45,.5)",
      "Tomorrow is very likely to exceed the WHO guideline.",
-     "Limit strenuous outdoor activity, keep windows closed, and check on neighbours who are older or have lung or heart conditions."),
+     "Limit outdoor activity, keep windows closed, and check on neighbours who are older or have lung or heart conditions."),
 ]
 
 
