@@ -285,7 +285,6 @@ with tab_forecast:
                        xaxis_title=f"{choice} ({unit})", yaxis=dict(title="Risk", tickformat=".0%", range=[0, 1]))
     st.plotly_chart(fig2, width="stretch", config={"displayModeBar": False})
     st.caption("Shaded area: where the model would call tomorrow an exceedance (50% or more). "
-               "Because the recent-average questions are held fixed, the curve shows this one factor only — real days move together.")
 
 # ---------------------------------------------------------------- explore --
 with tab_explore:
