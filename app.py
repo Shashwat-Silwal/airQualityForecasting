@@ -204,18 +204,6 @@ with tab_forecast:
             if st.session_state["use_pm10"]:
                 st.number_input("Today's PM10 (µg/m³)", 0.0, 200.0, key="pm10", step=0.5)
 
-        with st.expander("Try a real day from the data"):
-            sites = sorted(HISTORY.site_name.unique())
-            st.selectbox("Monitoring site", sites, key="ex_site",
-                         index=sites.index("Anzac Square"))
-            site_dates = HISTORY[HISTORY.site_name == st.session_state["ex_site"]].date
-            st.date_input("Day", value=pd.Timestamp("2024-07-10").date(), key="ex_date",
-                          min_value=site_dates.min().date(), max_value=site_dates.max().date())
-            st.button("Load this day", on_click=load_real_day, width="stretch")
-            if st.session_state.get("ex_msg"):
-                st.warning(st.session_state["ex_msg"])
-        st.button("Reset all answers", on_click=reset_all)
-
     # ----- compute
     s = st.session_state
     answers = dict(
