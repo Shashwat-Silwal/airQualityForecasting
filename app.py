@@ -284,7 +284,7 @@ with tab_forecast:
     fig2.update_layout(height=320, margin=dict(l=0, r=10, t=10, b=10), showlegend=False,
                        xaxis_title=f"{choice} ({unit})", yaxis=dict(title="Risk", tickformat=".0%", range=[0, 1]))
     st.plotly_chart(fig2, width="stretch", config={"displayModeBar": False})
-    st.caption("Shaded area: where the model would call tomorrow an exceedance (50% or more). "
+    st.caption("Shaded area: where the model would call tomorrow an exceedance (50% or more). ")
 
 # ---------------------------------------------------------------- explore --
 with tab_explore:
